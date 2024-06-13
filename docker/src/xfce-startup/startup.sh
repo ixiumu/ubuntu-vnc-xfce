@@ -190,6 +190,8 @@ main() {
     ### be sure to end all previous branches by calling 'cleanup'
     ### option '--wait' is purely because of the parser
 
+    [ -x "${STARTUPDIR}"/custom.sh ] && "${STARTUPDIR}"/custom.sh
+
     ### this handles also '--skip-vnc' and '--skip-novnc' options
     start_vnc
 
