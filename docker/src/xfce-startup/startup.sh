@@ -196,10 +196,13 @@ main() {
     ### command array expands to all elements quoted as a whole
     execute_command "${_arg_command[*]}"
 
+    sleep 3
+    _wait_pid=$(pidof /usr/bin/Xtigervnc)
+
     if [[ -n "${_wait_pid}" ]] ; then
 
         ### VNC has been started - wait on its PID
-        wait ${_wait_pid}
+        tail --pid "$_wait_pid" -f /dev/null & wait $!
     else
 
         ### VNC not started - go asleep infinitely

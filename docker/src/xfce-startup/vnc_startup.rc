@@ -62,6 +62,7 @@ start_vnc () {
     rfbport=${VNC_PORT}
     depth=${VNC_COL_DEPTH}
     geometry=${VNC_RESOLUTION}
+    localhost=0
     " > "${HOME}"/.vnc/config
 
     ### get container IP address
