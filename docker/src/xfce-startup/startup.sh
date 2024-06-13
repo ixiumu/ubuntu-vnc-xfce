@@ -135,6 +135,15 @@ main() {
         cleanup
     fi
 
+    ### custom startup shell
+    if [[ -x "/data/startup.sh" ]] ; then
+        echo "exec custom startup.sh"
+
+        _su_password=$(cat "${STARTUPDIR}/.initial_sudo_password" 2>/dev/null)
+        [[ -z "$_su_password" ]] && _su_password="headless"
+        echo "${_su_password}" | sudo -S "/data/startup.sh"
+    fi
+
     ### options '--version-sticker' and '--version-sticker-verbose'
     if [[ "${_arg_version_sticker}" == "on" || "${_arg_version_sticker_verbose}" == "on" ]] ; then
 
@@ -189,14 +198,6 @@ main() {
     ### default backround execution mode
     ### be sure to end all previous branches by calling 'cleanup'
     ### option '--wait' is purely because of the parser
-
-    if [[ -x "${STARTUPDIR}"/custom.sh ]] ; then
-	echo "exec costom.sh"
-	
-	_su_password=$(cat "${STARTUPDIR}/.initial_sudo_password" 2>/dev/null)
-        [[ -z "$_su_password" ]] && _su_password="headless"
-	echo "${_su_password}" | sudo -S "${STARTUPDIR}/custom.sh"
-    fi
 
     ### this handles also '--skip-vnc' and '--skip-novnc' options
     start_vnc
